@@ -57,34 +57,43 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-typedef void (*pFunction)(void);
+void (* Application)(void);
 static void JumpToApp(void)
 {
-    uint32_t i = 0;
-    pFunction JumpToApplication;            /* Â£∞Êòé1‰∏™ÂáΩÊï∞ÊåáÈíà */
-    __IO uint32_t AppAddr = 0x90000000;     /* APP Âú∞ÂùÄ */
+    uint8_t i = 0;
+    uint32_t app_ddr = 0x90000000UL;
 
-    __set_PRIMASK(1);                       /* Á¶ÅÊ≠¢ÂÖ®Â±Ä‰∏≠Êñ≠ */
+    /* disable global interrupt */
+    __disable_irq();
 
-    HAL_RCC_DeInit(); 
+    /* close and reset Systick */
+    SysTick->CTRL = 0;					// disable systick
+    SysTick->LOAD = 0;					// clear loaded value
+    SysTick->VAL = 0;					// clear current systick value
 
-    SysTick->CTRL = 0;                 
-    SysTick->LOAD = 0;
-    SysTick->VAL = 0;
-
-    for (i = 0; i < 8; i++)  
+    /* clear all NVIC Enable and Pending registers */
+    for(uint8_t i = 0; i < 8; i++)
     {
         NVIC->ICER[i] = 0xFFFFFFFF;
         NVIC->ICPR[i] = 0xFFFFFFFF;
     }
 
-    __set_PRIMASK(0);                   /* ‰ΩøËÉΩÂÖ®Â±Ä‰∏≠Êñ≠ */
+    /* enable global interrupt */
+    __enable_irq();
 
-    JumpToApplication = (pFunction)(*(__IO uint32_t *)(AppAddr + 4));   
-    __set_MSP(*(__IO uint32_t *)AppAddr);   
-    __set_CONTROL(0);                      
-    JumpToApplication();          
+    /* priviage mode */
+    __set_CONTROL(0);
+
+    /* blocks all interrupts apart from the non-maskable interrupt (NMI) and the hard fault exception */
+    __set_PRIMASK(1);
+
+    Application = (void *)(*(__IO uint32_t *)(app_ddr + 4));
+    __set_MSP(*(__IO uint32_t *)app_ddr);
+
+    Application();
 }
+
+
 /* USER CODE END 0 */
 
 /**
@@ -94,17 +103,17 @@ static void JumpToApp(void)
 int main(void)
 {
     /* USER CODE BEGIN 1 */
-    int result = QSPI_OK;
+
     /* USER CODE END 1 */
 
     /* MPU Configuration--------------------------------------------------------*/
-//    MPU_Config();
+    MPU_Config();
 
-//    /* Enable I-Cache---------------------------------------------------------*/
-//    SCB_EnableICache();
+    /* Enable I-Cache---------------------------------------------------------*/
+    SCB_EnableICache();
 
-//    /* Enable D-Cache---------------------------------------------------------*/
-//    SCB_EnableDCache();
+    /* Enable D-Cache---------------------------------------------------------*/
+    SCB_EnableDCache();
 
     /* MCU Configuration--------------------------------------------------------*/
 
@@ -127,25 +136,22 @@ int main(void)
     MX_QUADSPI_Init();
     MX_UART4_Init();
     /* USER CODE BEGIN 2 */
-    result = W25QXX_Reset();
-    if(QSPI_OK != result)
-    {
-        printf("Reset Failed.\n");
-    }
-    result = W25QXX_Enable_Memory_Mapped();
-    if(QSPI_OK != result)
-    {
-        printf("Memory Mapped Failed.\n");
-    }
+    W25QXX_Reset();
+    W25QXX_Enable_Memory_Mapped();
 
-    printf("Jump To Application.\n");
+    // printf("  __  ____  ___   _   ____   ___   ___ _____ \n");
+    // printf(" |  \\/  \\ \\/ / | | | | __ ) / _ \\ / _ \\_   _| \n");
+    // printf(" | |\\/| |\\  /| |_| | |  _ \\| | | | | | || | \n");
+    // printf(" | |  | |/  \\|  _  | | |_) | |_| | |_| || | \n");
+    // printf(" |_|  |_/_/\\_\\_| |_| |____/ \\___/ \\___/ |_| \n");
+    printf("BootLoader Powered by MXH.\n");
+
     JumpToApp();
-
     /* USER CODE END 2 */
 
     /* Infinite loop */
     /* USER CODE BEGIN WHILE */
-    while (1)                           /* Ë∑≥ËΩ¨ÊàêÂäüÁöÑËØùÔºå‰∏ç‰ºöÊâßË°åÂà∞ËøôÈáåÔºåÁî®Êà∑ÂèØ‰ª•Âú®ËøôÈáåÊ∑ªÂä†‰ª£Á†Å */
+    while (1)
     {
         /* USER CODE END WHILE */
 
@@ -218,14 +224,41 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-int fputc(int ch, FILE *f)
-{
-    uint8_t dat;
+/* ------------------Õ®π˝÷ÿ∂®œÚΩ´printf∫Ø ˝”≥…‰µΩ¥Æø⁄1…œ-------------------*/
+#if !defined(__MICROLIB)
 
-    dat = (uint8_t)ch;
-    HAL_UART_Transmit(&huart4, (uint8_t *)(&dat), 1, 5);
+//#pragma import(__use_no_semihosting)
+__asm (".global __use_no_semihosting\n\t");
+void _sys_exit(int x) //±‹√‚ π”√∞Î÷˜ª˙ƒ£ Ω
+{
+    x = x;
+}
+//__use_no_semihosting was requested, but _ttywrch was
+void _ttywrch(int ch)
+{
+    ch = ch;
+}
+//struct __FILE
+//{
+//  int handle;
+//};
+FILE __stdout;
+
+#endif
+
+#if defined ( __GNUC__ ) && !defined (__clang__)
+#define PUTCHAR_PROTOTYPE int __io_putchar(int ch)
+#else
+#define PUTCHAR_PROTOTYPE int fputc(int ch, FILE *f)
+#endif
+PUTCHAR_PROTOTYPE
+{
+    /*  µœ÷¥Æø⁄∑¢ÀÕ“ª∏ˆ◊÷Ω⁄ ˝æ›µƒ∫Ø ˝ */
+    HAL_UART_Transmit(&huart4, (uint8_t *)&ch, 1, 1000);
     return ch;
 }
+
+
 /* USER CODE END 4 */
 
 /* MPU Configuration */
@@ -241,19 +274,30 @@ void MPU_Config(void)
     */
     MPU_InitStruct.Enable = MPU_REGION_ENABLE;
     MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-    MPU_InitStruct.BaseAddress = 0x0;
-    MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
+    MPU_InitStruct.BaseAddress = 0x90000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_8MB;
     MPU_InitStruct.SubRegionDisable = 0x00;
     MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
     MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
     MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
-    MPU_InitStruct.IsShareable = MPU_ACCESS_SHAREABLE;
+    MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
     MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
     MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+    MPU_InitStruct.BaseAddress = 0x24000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_512KB;
+    MPU_InitStruct.SubRegionDisable = 0x0;
+    MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+    MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
     /* Enables the MPU */
-    HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+    HAL_MPU_Enable(MPU_HFNMI_PRIVDEF);
 
 }
 

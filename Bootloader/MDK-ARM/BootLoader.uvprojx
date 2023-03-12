@@ -10,9 +10,8 @@
       <TargetName>BootLoader</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pArmCC>5060960::V5.06 update 7 (build 960)::.\ARMCC</pArmCC>
-      <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
-      <uAC6>0</uAC6>
+      <pCCUsed>6190000::V6.19::ARMCLANG</pCCUsed>
+      <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
           <Device>STM32H750XBHx</Device>
@@ -191,7 +190,7 @@
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>1</useUlib>
+            <useUlib>0</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -315,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -324,7 +323,7 @@
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>2</wLevel>
+            <wLevel>3</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
@@ -548,17 +547,17 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>User/Driver</GroupName>
+          <GroupName>Application/User/Driver</GroupName>
           <Files>
-            <File>
-              <FileName>user_w25q64jv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\user_w25q64jv.c</FilePath>
-            </File>
             <File>
               <FileName>user_delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\User\user_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>user_w25q64jv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\user_w25q64jv.c</FilePath>
             </File>
           </Files>
         </Group>
