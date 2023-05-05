@@ -24,7 +24,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "user_w25q64jv.h"
+#include "w25qxx.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -136,8 +136,8 @@ int main(void)
     MX_QUADSPI_Init();
     MX_UART4_Init();
     /* USER CODE BEGIN 2 */
-    W25QXX_Reset();
-    W25QXX_Enable_Memory_Mapped();
+	W25QXX_Init();
+	W25Q_Memory_Mapped_Enable();
 
     // printf("  __  ____  ___   _   ____   ___   ___ _____ \n");
     // printf(" |  \\/  \\ \\/ / | | | | __ ) / _ \\ / _ \\_   _| \n");

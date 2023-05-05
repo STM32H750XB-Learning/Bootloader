@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32H750xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;../User/Inc</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc;../Drivers/STM32H7xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32H7xx/Include;../Drivers/CMSIS/Include;..\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -547,17 +547,12 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Application/User/Driver</GroupName>
+          <GroupName>Application/User</GroupName>
           <Files>
             <File>
-              <FileName>user_delay.c</FileName>
+              <FileName>w25qxx.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\User\user_delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>user_w25q64jv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\User\user_w25q64jv.c</FilePath>
+              <FilePath>..\User\w25qxx.c</FilePath>
             </File>
           </Files>
         </Group>

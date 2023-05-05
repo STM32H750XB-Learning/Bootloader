@@ -8,15 +8,14 @@
                 "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\Drivers\\STM32H7xx_HAL_Driver\\Inc\\Legacy",
                 "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\Drivers\\CMSIS\\Device\\ST\\STM32H7xx\\Include",
                 "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\Drivers\\CMSIS\\Include",
-                "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\User\\Inc",
+                "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\User",
                 "D:\\Program\\Keil\\Keil_v5\\ARM\\ARMCLANG\\include",
                 "D:\\Program\\Keil\\Keil_v5\\ARM\\ARMCLANG\\include\\arm_linux",
                 "D:\\Program\\Keil\\Keil_v5\\ARM\\ARMCLANG\\include\\arm_linux_compat",
                 "D:\\Program\\Keil\\Keil_v5\\ARM\\ARMCLANG\\include\\libcxx",
                 "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\MDK-ARM",
                 "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\Core\\Src",
-                "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\Drivers\\STM32H7xx_HAL_Driver\\Src",
-                "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\User"
+                "f:\\3.git\\1.Github\\Bootloader\\Bootloader\\Drivers\\STM32H7xx_HAL_Driver\\Src"
             ],
             "defines": [
                 "USE_HAL_DRIVER",

@@ -28,8 +28,7 @@
 "bootloader\stm32h7xx_hal_uart.o"
 "bootloader\stm32h7xx_hal_uart_ex.o"
 "bootloader\system_stm32h7xx.o"
-"bootloader\user_delay.o"
-"bootloader\user_w25q64jv.o"
+"bootloader\w25qxx.o"
 --strict --scatter "BootLoader\BootLoader.sct"
 --diag_suppress L6314W --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
