@@ -8,10 +8,42 @@ LR_IROM1 0x08000000 0x00200000 { 		; load region size_region
 		.ANY (+RO)
 		.ANY (+XO)
 	}
+		
+	; RW data - 128KB DTCM - Only for CPU and MDMA
+	RW_IRAM0 0x20000000 0x00020000 {
+		*(.RAM_D0)
+	}
+	
+	; RW data - 64KB ITCM - Only for CPU and MDMA, Start From 0x10 in oder to avoid NULL
+	RW_IRAM1 0x00000010 0x0000FFF0{
+		*(.RAM_D1)
+	}
 	
 	; RW data - 512KB AXI SRAM
 	RW_IRAM2 0x24000000 0x00080000 {
 		.ANY (+RW +ZI)
+		*(.RAM_D2)
+	}
+	
+	; RW data - 128KB SRAM1(0x30000000) + 128KB SRAM2(0x3002 0000)
+	RW_IRAM3 0x30000000 0x00040000 {
+		*(.RAM_D3)
+	}
+	
+	; RW data - 32KB SRAM3(0x30040000)
+	; SRAM3 is commonly used for ETH
+	RW_IRAM4 0x30040000	0x00008000 {
+		*(.RAM_D4)
+	}
+	
+	; RW data - 64KB SRAM4(0x38000000)
+	RW_IRAM5 0x38000000 0x00010000 {
+		*(.RAM_D5)
+	}
+	
+	; RW data - 4KB Backup SRAM4(0x38800000)
+	RW_IRAM6 0x38800000 0x00001000 {
+		*(.RAM_D6)
 	}
 }
 

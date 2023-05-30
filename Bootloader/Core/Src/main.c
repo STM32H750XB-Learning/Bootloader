@@ -57,11 +57,12 @@ static void MPU_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-void (* Application)(void);
+typedef void (*pFunction)(void);
 static void JumpToApp(void)
 {
     uint8_t i = 0;
     uint32_t app_ddr = 0x90000000UL;
+	pFunction JumpApp = (pFunction)(*(__IO uint32_t *)(app_ddr + 4 ));
 
     /* disable global interrupt */
     __disable_irq();
@@ -78,19 +79,15 @@ static void JumpToApp(void)
         NVIC->ICPR[i] = 0xFFFFFFFF;
     }
 
-    /* enable global interrupt */
-    __enable_irq();
-
     /* priviage mode */
     __set_CONTROL(0);
 
     /* blocks all interrupts apart from the non-maskable interrupt (NMI) and the hard fault exception */
     __set_PRIMASK(1);
 
-    Application = (void *)(*(__IO uint32_t *)(app_ddr + 4));
-    __set_MSP(*(__IO uint32_t *)app_ddr);
-
-    Application();
+	__set_MSP(app_ddr);
+	
+    JumpApp();
 }
 
 
@@ -139,12 +136,12 @@ int main(void)
 	W25QXX_Init();
 	W25Q_Memory_Mapped_Enable();
 
-    // printf("  __  ____  ___   _   ____   ___   ___ _____ \n");
-    // printf(" |  \\/  \\ \\/ / | | | | __ ) / _ \\ / _ \\_   _| \n");
-    // printf(" | |\\/| |\\  /| |_| | |  _ \\| | | | | | || | \n");
-    // printf(" | |  | |/  \\|  _  | | |_) | |_| | |_| || | \n");
-    // printf(" |_|  |_/_/\\_\\_| |_| |____/ \\___/ \\___/ |_| \n");
-    printf("BootLoader Powered by MXH.\n");
+	printf("  __  ____  ___   _   ____   ___   ___ _____ \r\n");
+	printf(" |  \\/  \\ \\/ / | | | | __ ) / _ \\ / _ \\_   _| \r\n");
+	printf(" | |\\/| |\\  /| |_| | |  _ \\| | | | | | || | \r\n");
+	printf(" | |  | |/  \\|  _  | | |_) | |_| | |_| || | \r\n");
+	printf(" |_|  |_/_/\\_\\_| |_| |____/ \\___/ \\___/ |_| \r\n");
+    printf(" BootLoader Powered by MXH.\r\n");
 
     JumpToApp();
     /* USER CODE END 2 */
