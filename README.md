@@ -13,7 +13,7 @@ BootLoader和App实现教程：安富莱\_STM32-V7开发板_用户手册，含BS
 # 注意事项
 
 1. 在 BootLoader 中进行了 MPU 的配置，在 App 中，就无需重复配置；
-2. 在 BootLoader 中，最好禁用 I-Cache 和 D-Cache；
+2. 在 BootLoader 中，最好禁用 I-Cache 和 D-Cache（实际上，我看了一下硬汉的部分代码，实际上，并不强求一定要禁用 I-Cache 和 D-Cache，应该还是根据自己的需求来决定是开启还是关闭）；
 3. 在 BootLoader 中，配置了 FMC，在 App 中，需要注释以下这段代码：
 
 ```c
