@@ -8,6 +8,10 @@ SDRAM 配置参考：[STM32H750XB-Learning/SDRAM_Config (github.com)](https://gi
 
 MPU配置参考：[STM32H750XB-Learning/MPU_Cache_Config (github.com)](https://github.com/STM32H750XB-Learning/MPU_Cache_Config)
 
+App代码：[STM32H750XB-Learning/App: Applicaiton Temp For STM32H750 (github.com)](https://github.com/STM32H750XB-Learning/App)
+
+BootLoader代码：[STM32H750XB-Learning/Bootloader (github.com)](https://github.com/STM32H750XB-Learning/Bootloader)
+
 BootLoader和App实现教程：安富莱\_STM32-V7开发板_用户手册，含BSP驱动包设计（V3.5）
 
 # 注意事项
