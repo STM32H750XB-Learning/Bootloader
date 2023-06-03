@@ -45,6 +45,10 @@ LR_IROM1 0x08000000 0x00200000 { 		; load region size_region
 	RW_IRAM6 0x38800000 0x00001000 {
 		*(.RAM_D6)
 	}
+	
+	RW_IRAM7 0xC0000000 UNINIT 0x02000000  {  ; RW data - 32MB SDRAM(0xC0000000)
+		*(.RAM_SDRAM)
+	}
 }
 
 ;Example: attribute((section (".RAM_D1")))

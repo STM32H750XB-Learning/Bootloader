@@ -21,10 +21,12 @@
 #include "quadspi.h"
 #include "usart.h"
 #include "gpio.h"
+#include "fmc.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "w25qxx.h"
+#include "w9825g6kh.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -62,7 +64,7 @@ static void JumpToApp(void)
 {
     uint8_t i = 0;
     uint32_t app_ddr = 0x90000000UL;
-	pFunction JumpApp = (pFunction)(*(__IO uint32_t *)(app_ddr + 4 ));
+    pFunction JumpApp = (pFunction)(*(__IO uint32_t *)(app_ddr + 4 ));
 
     /* disable global interrupt */
     __disable_irq();
@@ -85,8 +87,10 @@ static void JumpToApp(void)
     /* blocks all interrupts apart from the non-maskable interrupt (NMI) and the hard fault exception */
     __set_PRIMASK(1);
 
-	__set_MSP(app_ddr);
-	
+    __set_MSP(app_ddr);
+
+
+
     JumpApp();
 }
 
@@ -132,15 +136,19 @@ int main(void)
     MX_GPIO_Init();
     MX_QUADSPI_Init();
     MX_UART4_Init();
+    MX_FMC_Init();
     /* USER CODE BEGIN 2 */
-	W25QXX_Init();
-	W25Q_Memory_Mapped_Enable();
-
-	printf("  __  ____  ___   _   ____   ___   ___ _____ \r\n");
-	printf(" |  \\/  \\ \\/ / | | | | __ ) / _ \\ / _ \\_   _| \r\n");
-	printf(" | |\\/| |\\  /| |_| | |  _ \\| | | | | | || | \r\n");
-	printf(" | |  | |/  \\|  _  | | |_) | |_| | |_| || | \r\n");
-	printf(" |_|  |_/_/\\_\\_| |_| |____/ \\___/ \\___/ |_| \r\n");
+    W25QXX_Init();
+    W25Q_Memory_Mapped_Enable();
+    if(HAL_OK == w9825g6kh_init_sequence(&hsdram1, FMC_SDRAM_CMD_TARGET_BANK1))
+        printf("Init Sdram Success.\r\n");
+    else	printf("Init Sdram Failed.\r\n");
+	
+    printf("  __  ____  ___   _   ____   ___   ___ _____ \r\n");
+    printf(" |  \\/  \\ \\/ / | | | | __ ) / _ \\ / _ \\_   _| \r\n");
+    printf(" | |\\/| |\\  /| |_| | |  _ \\| | | | | | || | \r\n");
+    printf(" | |  | |/  \\|  _  | | |_) | |_| | |_| || | \r\n");
+    printf(" |_|  |_/_/\\_\\_| |_| |____/ \\___/ \\___/ |_| \r\n");
     printf(" BootLoader Powered by MXH.\r\n");
 
     JumpToApp();
@@ -271,13 +279,26 @@ void MPU_Config(void)
     */
     MPU_InitStruct.Enable = MPU_REGION_ENABLE;
     MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-    MPU_InitStruct.BaseAddress = 0x90000000;
-    MPU_InitStruct.Size = MPU_REGION_SIZE_8MB;
-    MPU_InitStruct.SubRegionDisable = 0x00;
-    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+    MPU_InitStruct.BaseAddress = 0x0;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
+    MPU_InitStruct.SubRegionDisable = 0x87;
+    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
     MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
     MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
+    MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
+    MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+    MPU_InitStruct.BaseAddress = 0x90000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_256MB;
+    MPU_InitStruct.SubRegionDisable = 0x0;
+    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
     MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
     MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
@@ -285,12 +306,31 @@ void MPU_Config(void)
 
     /** Initializes and configures the Region and the memory to be protected
     */
-    MPU_InitStruct.Number = MPU_REGION_NUMBER1;
+    MPU_InitStruct.Number = MPU_REGION_NUMBER2;
     MPU_InitStruct.BaseAddress = 0x24000000;
     MPU_InitStruct.Size = MPU_REGION_SIZE_512KB;
-    MPU_InitStruct.SubRegionDisable = 0x0;
     MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
     MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER3;
+    MPU_InitStruct.BaseAddress = 0x60000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+    MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER4;
+    MPU_InitStruct.BaseAddress = 0xC0000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
+    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+    MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
 
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
     /* Enables the MPU */
