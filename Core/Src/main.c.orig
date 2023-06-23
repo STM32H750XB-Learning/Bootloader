@@ -66,9 +66,6 @@ static void JumpToApp(void)
     uint32_t app_ddr = 0x90000000UL;
     pFunction JumpApp = (pFunction)(*(__IO uint32_t *)(app_ddr + 4 ));
 
-    /* disable global interrupt */
-    __disable_irq();
-
     /* close and reset Systick */
     SysTick->CTRL = 0;					// disable systick
     SysTick->LOAD = 0;					// clear loaded value
@@ -84,12 +81,13 @@ static void JumpToApp(void)
     /* priviage mode */
     __set_CONTROL(0);
 
+    /* disable global interrupt */
+    __disable_irq();
+
     /* blocks all interrupts apart from the non-maskable interrupt (NMI) and the hard fault exception */
     __set_PRIMASK(1);
 
     __set_MSP(app_ddr);
-
-
 
     JumpApp();
 }
@@ -143,9 +141,6 @@ int main(void)
     if(HAL_OK == w9825g6kh_init_sequence(&hsdram1, FMC_SDRAM_CMD_TARGET_BANK1))
         printf("Init Sdram Success.\r\n");
     else	printf("Init Sdram Failed.\r\n");
-
-    uint8_t *pBuf = (uint8_t *)(W9825G6KH_ADDR);
-    printf("pBuf[0]: %u.\r\n", pBuf[0]);
 
     printf("  __  ____  ___   _   ____   ___   ___ _____ \r\n");
     printf(" |  \\/  \\ \\/ / | | | | __ ) / _ \\ / _ \\_   _| \r\n");
