@@ -33,7 +33,7 @@
 ".\bootloader\output\system_stm32h7xx.o"
 ".\bootloader\output\w25qxx.o"
 ".\bootloader\output\w9825g6kh.o"
---library_type=microlib --strict --scatter ".\BootLoader.sct"
+--strict --scatter ".\BootLoader.sct"
 --diag_suppress L6314W --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\BootLoader\Listing\BootLoader.map" -o .\BootLoader\Output\BootLoader.axf
