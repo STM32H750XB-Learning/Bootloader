@@ -33,15 +33,15 @@ int w9825g6kh_init_sequence(SDRAM_HandleTypeDef *hsdram, uint32_t target)
              SDRAM_MODEREG_BURST_TYPE_SEQUENTIAL   |
              SDRAM_MODEREG_CAS_LATENCY_2           |
              SDRAM_MODEREG_OPERATING_MODE_STANDARD |
-             SDRAM_MODEREG_WRITEBURST_MODE_PROGRAMMED;
+             SDRAM_MODEREG_WRITEBURST_MODE_SINGLE;
 	if(w9825g6kh_config_load_mode_reg(hsdram, target, tmpmode) != HAL_OK)	return -HAL_ERROR;
 
 	/* Step 6: Set the refresh rate counter 
 	 * SDRAM refresh period / Number of rows）*SDRAM时钟速度 – 20
-	 *	  	= 64ms / 8192 *100MHz - 20
-	 *  	= 761.25 取值762
+	 *	  	= 64ms / 8192 *120MHz - 20
+	 *  	= 917.5 取值918
 	 */
-	if(HAL_SDRAM_ProgramRefreshRate(hsdram, W9825G6KH_REFRESH_COUNT) != HAL_OK)	return -HAL_ERROR;
+	if(HAL_SDRAM_ProgramRefreshRate(hsdram, 762) != HAL_OK)	return -HAL_ERROR;
 
     return HAL_OK;
 }
@@ -156,33 +156,123 @@ int w9825g6kh_exit_power_mode(SDRAM_HandleTypeDef *hsdram, uint32_t target)
 	return -HAL_SDRAM_SendCommand(hsdram, &Command, W9825G6KH_TIMEOUT);
 }
 
-void w9825g6kh_wr_test(void)
+//uint32_t w9825g6kh_wr_test(void)
+//{
+//	uint32_t i;
+//	uint32_t *pBuf;
+//	uint32_t err = 0;
+//	
+////	/* 写SDRAM */
+////	pBuf = (uint32_t *)(W9825G6KH_ADDR);
+////	for (i = 0; i < W9825G6KH_SIZE / 4; i++)
+////	{
+////		pBuf[i] = i;
+////	}
+////	
+////	/* 读SDRAM */
+////	pBuf = (uint32_t *)(W9825G6KH_ADDR);
+////	for (i = 0; i < W9825G6KH_SIZE / 4; i++)
+////	{
+////		if(pBuf[i] != i)	err++;
+////	}
+////	
+////	if (err >  0)	return (4 * err);
+//	
+//	
+//	
+//	/* 测试按字节方式访问, 目的是验证 FMC_NBL0、FMC_NBL1 口线 */
+//	uint8_t *pBytes = (uint8_t *)W9825G6KH_ADDR;
+//	for (i = 0; i < 256; i++)
+//    {
+//        *pBytes++ = i;
+//    }
+//	
+//	/* 比较SDRAM的数据 */
+//	for (i = 0; i < 256; i++)
+//	{
+//		printf("%04d ", *pBytes);
+//		if((i + 1) % 8 == 0)	printf("\r\n");
+//        if (*pBytes++ != i)	err++;
+//	}
+//	
+//	if (err >  0)	return err;
+//		
+//	return 0;
+//}
+
+uint32_t w9825g6kh_wr_test(void)
 {
-	uint32_t i;
-	uint32_t *pBuf;
+    int i = 0;
+	char data_width = 4;
+	uint32_t data_32 = 0;
+	uint16_t data_16 = 0;
+	uint8_t data_8 = 0;
+	uint32_t err = 0;
 	
-	/* 写入测试数据0xAAAA5555 */
-	pBuf = (uint32_t *)(W9825G6KH_ADDR + 0);
-	for (i = 0; i < 256; i++)
-	{
-		pBuf[i] = i;
+	for (i = 0; i < W9825G6KH_SIZE / data_width; i++)
+    {
+		*(__IO uint32_t *)(W9825G6KH_ADDR + i * data_width) = (uint32_t)0x55AA55AA;
 	}
-
-	printf("phsical addr: 0x%08X  size: %d Bytes  display: %d Bytes  data following: \r\n", W9825G6KH_ADDR + 0, W9825G6KH_SIZE, 256*4);
 	
-	/* 打印数据 */
-	pBuf = (uint32_t *)(W9825G6KH_ADDR + 0);
-	for (i = 0; i < 256; i++)
-	{
-		printf(" %04X", pBuf[i]);
-
-		if ((i & 7) == 7)
+    for (i = 0; i < W9825G6KH_SIZE / data_width; i++)
+    {
+        data_32 = *(__IO uint32_t *)(W9825G6KH_ADDR + i * data_width);
+        if (data_32 != 0x55AA55AA)
 		{
-			printf("\r\n");		/* 每行显示32字节数据 */
-		}
-		else if ((i & 7) == 3)
-		{
-			printf(" - ");
+			err++;
 		}
 	}
+	
+	if(err > 0)	
+	{
+		printf("sdram test 32bit failed.\r\n");
+		return err;
+	}
+	printf("sdram test 32bit success.\r\n");
+	
+	data_width = 2;
+	for (i = 0; i < W9825G6KH_SIZE / data_width; i++)
+    {
+		*(__IO uint16_t *)(W9825G6KH_ADDR + i * data_width) = (uint16_t)0x55AA;
+	}
+	
+    for (i = 0; i < W9825G6KH_SIZE / data_width; i++)
+    {
+        data_16 = *(__IO uint16_t *)(W9825G6KH_ADDR + i * data_width);
+        if (data_16 != 0x55AA)
+		{
+			err++;
+		}
+	}
+	
+	if(err > 0)	
+	{
+		printf("sdram test 16bit failed.\r\n");
+		return err;
+	}
+	printf("sdram test 16bit success.\r\n");
+	
+	data_width = 1;
+	for (i = 0; i < W9825G6KH_SIZE / data_width; i++)
+    {
+		*(__IO uint8_t *)(W9825G6KH_ADDR + i * data_width) = (uint8_t)0x5A;
+	}
+	
+    for (i = 0; i < W9825G6KH_SIZE / data_width; i++)
+    {
+        data_8 = *(__IO uint8_t *)(W9825G6KH_ADDR + i * data_width);
+        if (data_8 != 0x5A)
+		{
+			err++;
+		}
+	}
+	
+	if(err > 0)	
+	{
+		printf("sdram test 8bit failed.\r\n");
+		return err;
+	}
+	printf("sdram test 8bit success.\r\n");
+	
+	return err;
 }

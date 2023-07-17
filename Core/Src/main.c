@@ -64,7 +64,7 @@ static void JumpToApp(void)
 {
     uint8_t i = 0;
     uint32_t app_ddr = QSPI_BASE;
-    pFunction JumpApp = (pFunction)(*(__IO uint32_t *)(app_ddr + 4 ));
+    pFunction JumpApp = (pFunction)(*(__IO uint32_t *)(app_ddr + 4));
 
     /* close and reset Systick */
     SysTick->CTRL = 0;					// disable systick
@@ -91,8 +91,6 @@ static void JumpToApp(void)
 
     JumpApp();
 }
-
-
 /* USER CODE END 0 */
 
 /**
@@ -276,26 +274,13 @@ void MPU_Config(void)
     */
     MPU_InitStruct.Enable = MPU_REGION_ENABLE;
     MPU_InitStruct.Number = MPU_REGION_NUMBER0;
-    MPU_InitStruct.BaseAddress = 0x0;
-    MPU_InitStruct.Size = MPU_REGION_SIZE_4GB;
-    MPU_InitStruct.SubRegionDisable = 0x87;
-    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
-    MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
-    MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE;
-    MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
-    MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
-    MPU_InitStruct.IsBufferable = MPU_ACCESS_NOT_BUFFERABLE;
-
-    HAL_MPU_ConfigRegion(&MPU_InitStruct);
-
-    /** Initializes and configures the Region and the memory to be protected
-    */
-    MPU_InitStruct.Number = MPU_REGION_NUMBER1;
     MPU_InitStruct.BaseAddress = 0x90000000;
     MPU_InitStruct.Size = MPU_REGION_SIZE_256MB;
     MPU_InitStruct.SubRegionDisable = 0x0;
     MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
+    MPU_InitStruct.AccessPermission = MPU_REGION_FULL_ACCESS;
     MPU_InitStruct.DisableExec = MPU_INSTRUCTION_ACCESS_ENABLE;
+    MPU_InitStruct.IsShareable = MPU_ACCESS_NOT_SHAREABLE;
     MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
     MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
@@ -303,7 +288,7 @@ void MPU_Config(void)
 
     /** Initializes and configures the Region and the memory to be protected
     */
-    MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+    MPU_InitStruct.Number = MPU_REGION_NUMBER1;
     MPU_InitStruct.BaseAddress = 0x24000000;
     MPU_InitStruct.Size = MPU_REGION_SIZE_512KB;
     MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
@@ -313,26 +298,79 @@ void MPU_Config(void)
 
     /** Initializes and configures the Region and the memory to be protected
     */
-    MPU_InitStruct.Number = MPU_REGION_NUMBER3;
-    MPU_InitStruct.BaseAddress = 0x60000000;
-    MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
-    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+    MPU_InitStruct.Number = MPU_REGION_NUMBER2;
+    MPU_InitStruct.BaseAddress = 0xC0000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
+    MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
     MPU_InitStruct.IsBufferable = MPU_ACCESS_BUFFERABLE;
 
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
 
     /** Initializes and configures the Region and the memory to be protected
     */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER3;
+    MPU_InitStruct.BaseAddress = 0x30000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_256KB;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
     MPU_InitStruct.Number = MPU_REGION_NUMBER4;
-    MPU_InitStruct.BaseAddress = 0xC0000000;
-    MPU_InitStruct.Size = MPU_REGION_SIZE_32MB;
-    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL1;
-    MPU_InitStruct.IsCacheable = MPU_ACCESS_CACHEABLE;
+    MPU_InitStruct.BaseAddress = 0x30040000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_32KB;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER5;
+    MPU_InitStruct.BaseAddress = 0x38000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER6;
+    MPU_InitStruct.BaseAddress = 0x38800000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_4KB;
+
+    HAL_MPU_ConfigRegion(&MPU_InitStruct);
+
+    /** Initializes and configures the Region and the memory to be protected
+    */
+    MPU_InitStruct.Number = MPU_REGION_NUMBER7;
+    MPU_InitStruct.BaseAddress = 0x60000000;
+    MPU_InitStruct.Size = MPU_REGION_SIZE_64KB;
+    MPU_InitStruct.TypeExtField = MPU_TEX_LEVEL0;
+    MPU_InitStruct.IsCacheable = MPU_ACCESS_NOT_CACHEABLE;
 
     HAL_MPU_ConfigRegion(&MPU_InitStruct);
     /* Enables the MPU */
     HAL_MPU_Enable(MPU_HFNMI_PRIVDEF);
 
+}
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM6 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    /* USER CODE BEGIN Callback 0 */
+
+    /* USER CODE END Callback 0 */
+    if (htim->Instance == TIM6) {
+        HAL_IncTick();
+    }
+    /* USER CODE BEGIN Callback 1 */
+
+    /* USER CODE END Callback 1 */
 }
 
 /**

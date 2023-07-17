@@ -13,7 +13,6 @@ extern "C" {
 /** @addtogroup W9825G6KH
   * @{
   */
-#define W9825G6KH_REFRESH_COUNT       ((uint32_t)1152)   /* SDRAM refresh counter (150Mhz SD clock, 8192K cycles) */
 #define W9825G6KH_TIMEOUT   ((uint32_t)0xFFFF)
 #define W9825G6KH_ADDR		((uint32_t)0xC0000000)
 #define W9825G6KH_SIZE		((uint32_t)0x2000000)
@@ -47,7 +46,7 @@ int w9825g6kh_config_load_mode_reg(SDRAM_HandleTypeDef *hsdram, uint32_t target,
 int w9825g6kh_config_refresh_mode(SDRAM_HandleTypeDef *hsdram, uint32_t target, uint32_t refresh_mode);
 int w9825g6kh_enter_power_mode(SDRAM_HandleTypeDef *hsdram, uint32_t target);
 int w9825g6kh_exit_power_mode(SDRAM_HandleTypeDef *hsdram, uint32_t target);
-void w9825g6kh_wr_test(void);
+uint32_t w9825g6kh_wr_test(void);
 /**
   * @}
   */
