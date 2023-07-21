@@ -74,13 +74,13 @@ BootLoader和App实现教程：安富莱\_STM32-V7开发板_用户手册，含BS
 
    ```
    RW_IRAM7 0xC0000000 UNINIT 0x02000000  {  ; RW data - 32MB SDRAM(0xC0000000)
-   	*(.RAM_SDRAM)
+   	*(.SDRAM)
    }
    ```
 
    - 使用如下：
 
    ```c
-   uint32_t testValue __attribute__((section(".RAM_SDRAM")));
+   uint32_t testValue __attribute__((section(".SDRAM")));
    ```
 
