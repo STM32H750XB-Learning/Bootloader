@@ -1,0 +1,58 @@
+(---------------------------------------------------------------------)
+(                                                                     )
+(    Create_devices LOG file                                          )
+(                                                                     )
+(    Drawing          : H743X_PCB_V1_0.brd                            )
+(    Software Version : 16.6S049                                      )
+(    Date/Time        : Fri May 10 11:28:47 2019                      )
+(                                                                     )
+(---------------------------------------------------------------------)
+
+
+
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/stm32h7x3xih_bga265_0r8_14x14_s.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/25wp_4_wson8_8x6_ic_w25q256jveq.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0402_discrete_10pf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0402_discrete_22pf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0603_discrete_22uf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0402_discrete_1uf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/module_lcd_3_fpc-40p-0p5_io_fpc.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/inductor_ferrite_l0402_discrete.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_5_r0402_discrete_10k_5.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_5_r0402_discrete_20_5.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_5_r0402_discrete_22k_5.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_4_r0402_discrete_47k.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_5_r0402_discrete_nc.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_5_r0402_discrete_68k.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_5_r0402_discrete_0.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/sy6280aac_sot23-5_mt9700.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/um1750s-00_0_sot23-5_ic_rt9013-.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/crystal_3215_ic_32768khz.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/usb_mini_ab_receptacle_3_micro_.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0402_discrete_01uf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0402_discrete_22uf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0402_discrete_47uf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0603_discrete_10uf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/cap_np_c0402_discrete_22nf.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/b2bf_2x40_0_b2bf-2x40-0p8_b2bf_.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/led_0_led0603_ic_red.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/bat54c_sot23_bat54c.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/spacer_0_t3_ic_30mm.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/sip5_2_0_sip5-2p54_sip5_2_54a.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/sip3_2_0_sip3-2p54_sip3_2_54.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/bead_l0603_discrete_330100mhz_.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_5_r0402_discrete_1k.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_r0402_discrete_1k.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_r0402_discrete_47k.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_r0402_discrete_10k_5.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_r0402_discrete_100.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_r0402_discrete_0.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/res_5_r0402_discrete_10k.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/sw_pb_esw_1_sw3x6-smd_ic_spstp.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/mt48lc16m16a2b4_bga54_4_tsop48_.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/mt48lc16m16a2b4_bga54_0_tsop54_.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/25wp_4_sot23-5_ic_at24c02c-stum.txt': written successfully.
+Device file 'E:/硬件/STM32/H750/封装库/pcb/743xLIB/crystal_jxs63_3225_ic_25mhz.txt': written successfully.
+
+  Created device files: 43
+

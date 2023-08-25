@@ -1,0 +1,14 @@
+'RES_R0402_DISCRETE_4.7K' 'res_r0402_discrete_47k.txt';
+'SPACER_0_T3_IC_3.0MM' 'spacer_0_t3_ic_30mm.txt';
+'SW_PB_ESW_1_SW3X6-SMD_IC_SPST P' 'sw_pb_esw_1_sw3x6-smd_ic_spstp.txt';
+'CRYSTAL_3215_IC_32.768KHZ' 'crystal_3215_ic_32768khz.txt';
+'CAP_NP_C0402_DISCRETE_0.1UF' 'cap_np_c0402_discrete_01uf.txt';
+'RES_5_R0402_DISCRETE_10K_5%' 'res_5_r0402_discrete_10k_5.txt';
+'CAP_NP_C0402_DISCRETE_2.2UF' 'cap_np_c0402_discrete_22uf.txt';
+'RES_5_R0402_DISCRETE_2.2K_5%' 'res_5_r0402_discrete_22k_5.txt';
+'CAP_NP_C0402_DISCRETE_4.7UF' 'cap_np_c0402_discrete_47uf.txt';
+'RES_5_R0402_DISCRETE_20_5%' 'res_5_r0402_discrete_20_5.txt';
+'BEAD_L0603_DISCRETE_330@100MHZ_' 'bead_l0603_discrete_330100mhz_.txt';
+'RES_R0402_DISCRETE_10K_5%' 'res_r0402_discrete_10k_5.txt';
+'RES_4_R0402_DISCRETE_4.7K' 'res_4_r0402_discrete_47k.txt';
+'RES_5_R0402_DISCRETE_6.8K' 'res_5_r0402_discrete_68k.txt';

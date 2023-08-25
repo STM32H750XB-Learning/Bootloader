@@ -1,0 +1,3 @@
+F:/BootLoader/cmake-build-debug/CMakeFiles/BootLoader.elf.dir
+F:/BootLoader/cmake-build-debug/CMakeFiles/edit_cache.dir
+F:/BootLoader/cmake-build-debug/CMakeFiles/rebuild_cache.dir
